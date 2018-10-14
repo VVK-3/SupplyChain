@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Supply Chain</title>
+      <link rel="icon" type="image/png" href="images/icons/hello.ico"/>
+      <script src="./node_modules/web3/dist/web3.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+      <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+      <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+      <!-- =============================================================================================== -->
+      <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+      <!-- =============================================================================================== -->
+      <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+      <!-- =============================================================================================== -->
+      <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+      <!-- =============================================================================================== -->
+      <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+      <!-- =============================================================================================== -->
+      <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+      <!-- ============================================================================================== -->
+      <link rel="stylesheet" type="text/css" href="css/util.css">
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+      <!--===============================================================================================-->
+   </head>
+   <body>
+      <div class="limiter">
+         <div class="container-login100" style="background-image: url('images/bg-010.jpg');">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+               <form class="login100-form validate-form">
+                  <span class="login100-form-title p-b-49">
+                      <h1>Suppply Chain</h1>
+                     <div class="label-input100bykritanu" id="countIns"></div>
+                     <div class="label-input100bykritanu"  id="instructor"></div>
+                     <p style="font-size:10px">
+                     <div class="label-input100bykritanu" id="insTrans" ></div>
+                     </p>
+                  </span>
+                  <div class="wrap-input100 validate-input m-b-23" data-validate = "Batch Number">
+                     <span class="label-input100">Batch number</span>
+                     <input class="input100" type="text" id="batch_num" name="batch_num" placeholder="Enter Batch number">
+                     <span class="focus-input100" data-symbol="&#10097;"></span>
+                  </div>
+                  <div class="wrap-input100 validate-input m-b-23" data-validate = "Product name required">
+                     <span class="label-input100">Product Name</span>
+                     <input class="input100" type="text" id="prod_name" name="prod_name" placeholder="Enter Product name">
+                     <span class="focus-input100" data-symbol="&#10097;"></span>
+                  </div>
+                  <div class="container-login100-form-btn">
+                     <div class="wrap-login100-form-btn">
+                        <button id="deploy_button" type="button" class="login100-form-btn">Deploy</button>
+                        <div class="login100-form-bgbtn"></div>
+                     </div>
+                  </div>
+                  <br>
+                  <div class="wrap-input100 validate-input" data-validate="City name required">
+                     <span class="label-input100">City Name</span>
+                     <input class="input100" type="text" id="name" name="name" placeholder="Enter the city name">
+                     <span class="focus-input100" data-symbol="&#10097;"></span>
+                  </div>
+                  <div class="wrap-input100 validate-input" data-validate="Latitude required">
+                     <span class="label-input100">Latitude</span>
+                     <input class="input100" type="text" id="latitude" name="latitude" placeholder="Enter the latitude">
+                     <span class="focus-input100" data-symbol="&#10097;"></span>
+                  </div>
+                  <br>
+                  <div class="wrap-input100 validate-input" data-validate="Longitude required">
+                     <span class="label-input100">Longitude</span>
+                     <input class="input100" type="text" id="longitude" name="longitude" placeholder="Enter the Longitude">
+                     <span class="focus-input100" data-symbol="&#10097;"></span>
+                  </div>
+                  <div class="text-right p-t-8 p-b-31">
+                  </div>
+                  <div class="container-login100-form-btn">
+                     <div class="wrap-login100-form-btn">
+                        <button id="button" type="button" class="login100-form-btn">Update Item Location</button>
+                        <div class="login100-form-bgbtn"></div>
+                     </div>
+                  </div>
+                  </span>
+            </div>
+            </form>
+             <br>
+        <ol>
+                <li>
+                  <p class="diplome">Japan</p>
+                  <span class="point"></span>
+                  <p class="description">
+                    Package Here
+                  </p>
+                </li>
+                <li>
+                  <p class="diplome">Singapore</p>
+                  <span class="point"></span>
+                  <p class="description">Package Here</p>
+                </li>
+                <li>
+                  <p class="diplome">Delhi</p>
+                  <span class="point"></span>
+                  <p class="description">Package Here</p>
+                </li>
+                <li>
+                  <p class="diplome">Chennai</p>
+                    <span class="point"></span>
+                  <p class="description">TEST</p></li>
+                <li>
+                <p class="diplome">Delivered :)</p>
+                  <span class="point"></span>
+                  <p class="description">Test</p>
+                </li>
+              </ol>
+        <br>
+      </div>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script>
+         if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+          web3.eth.defaultAccount = web3.eth.accounts[0];
+          var abi =[
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "idx",
+                "type": "uint256"
+            }
+        ],
+        "name": "getLocationHistory",
+        "outputs": [
+            {
+                "name": "delegate",
+                "type": "address"
+            },
+            {
+                "name": "longitude",
+                "type": "uint256"
+            },
+            {
+                "name": "latitude",
+                "type": "uint256"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "listLocations",
+        "outputs": [
+            {
+                "name": "p1",
+                "type": "string"
+            },
+            {
+                "name": "p2",
+                "type": "string"
+            },
+            {
+                "name": "p3",
+                "type": "string"
+            },
+            {
+                "name": "p4",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "recentLocation",
+        "outputs": [
+            {
+                "name": "delegate",
+                "type": "address"
+            },
+            {
+                "name": "longitude",
+                "type": "uint256"
+            },
+            {
+                "name": "latitude",
+                "type": "uint256"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getLastLocation",
+        "outputs": [
+            {
+                "name": "delegate",
+                "type": "address"
+            },
+            {
+                "name": "longitude",
+                "type": "uint256"
+            },
+            {
+                "name": "latitude",
+                "type": "uint256"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "locations",
+        "outputs": [
+            {
+                "name": "delegate",
+                "type": "address"
+            },
+            {
+                "name": "longitude",
+                "type": "uint256"
+            },
+            {
+                "name": "latitude",
+                "type": "uint256"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "longitude",
+                "type": "uint256"
+            },
+            {
+                "name": "latitude",
+                "type": "uint256"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "name": "saveLocation",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "item",
+        "outputs": [
+            {
+                "name": "id",
+                "type": "string"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "id",
+                "type": "string"
+            },
+            {
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "longitude",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "latitude",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "name",
+                "type": "string"
+            }
+        ],
+        "name": "itemInfo",
+        "type": "event"
+    }
+];
+        var address = '0x045f101e4b312c204e26da99f7f51eea61f277f2';
+          var cont_abi = web3.eth.contract(abi);
+          var Contract = cont_abi.at(address);
+          $("#deploy_button").click(function() {
+              $("#deploy_button").hide();
+              var id = $("#batch_num").val() ;
+              var name = $("#prod_name").val();
+                // console.log(qrcodetrackingContract);
+                // tracking = qrcodetrackingContract.at('0xf5a0c17c501fa9f16626076daaef1b891d041f80');
+              // var qrcodetracking = qrcodetrackingContract.new(
+              // id,
+              // name,
+              // {
+              //     from: web3.eth.accounts[0],
+              //     data: '0x608060405234801561001057600080fd5b50604051610bbb380380610bbb833981016040528051602082015160008054600160a060020a0319163390811791829055928401939190910191600160a060020a03919091161461006057600080fd5b60408051808201909152828152602080820183905283516001916100889183918701906100ac565b5060208281015180516100a192600185019201906100ac565b509050505050610147565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100ed57805160ff191683800117855561011a565b8280016001018555821561011a579182015b8281111561011a5782518255916020019190600101906100ff565b5061012692915061012a565b5090565b61014491905b808211156101265760008155600101610130565b90565b610a65806101566000396000f3006080604052600436106100775763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663142d9570811461007c57806348e918c5146101335780638b9564ad14610148578063b9e0db351461015d578063c926c16e14610175578063f2a4a82e146101d7575b600080fd5b34801561008857600080fd5b506100946004356102ca565b6040518085600160a060020a0316600160a060020a0316815260200184815260200183815260200180602001828103825283818151815260200191508051906020019080838360005b838110156100f55781810151838201526020016100dd565b50505050905090810190601f1680156101225780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b34801561013f57600080fd5b506100946103b3565b34801561015457600080fd5b5061009461045e565b34801561016957600080fd5b506100946004356105a4565b34801561018157600080fd5b50604080516020600460443581810135601f81018490048402850184019095528484526101d594823594602480359536959460649492019190819084018382808284375094975061063e9650505050505050565b005b3480156101e357600080fd5b506101ec6107fa565b604051808060200180602001838103835285818151815260200191508051906020019080838360005b8381101561022d578181015183820152602001610215565b50505050905090810190601f16801561025a5780820380516001836020036101000a031916815260200191505b50838103825284518152845160209182019186019080838360005b8381101561028d578181015183820152602001610275565b50505050905090810190601f1680156102ba5780820380516001836020036101000a031916815260200191505b5094505050505060405180910390f35b6000806000606060006003868154811015156102e257fe5b60009182526020918290206004919091020180546001808301546002808501546003860180546040805161010097831615979097026000190190911693909304601f8101899004890286018901909352828552959750600160a060020a03909416959194929183919083018282801561039c5780601f106103715761010080835404028352916020019161039c565b820191906000526020600020905b81548152906001019060200180831161037f57829003601f168201915b505050505090509450945094509450509193509193565b600480546005546006546007805460408051602060026101006001861615026000190190941693909304601f8101849004840282018401909252818152600160a060020a0390961696949593949392918301828280156104545780601f1061042957610100808354040283529160200191610454565b820191906000526020600020905b81548152906001019060200180831161043757829003601f168201915b5050505050905084565b6003805460009182918291606091600019810190811061047a57fe5b600091825260209091206004918202018054825473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a039091161782556001808201546005556002808301546006556003830180549394936104ea9360079390821615610100026000190190911604610929565b50506004546005546006546007805460408051602060026101006001861615026000190190941693909304601f8101849004840282018401909252818152600160a060020a03909616965093949293919291839183018282801561058f5780601f106105645761010080835404028352916020019161058f565b820191906000526020600020905b81548152906001019060200180831161057257829003601f168201915b50505050509050935093509350935090919293565b60038054829081106105b257fe5b60009182526020918290206004919091020180546001808301546002808501546003860180546040805161010097831615979097026000190190911693909304601f8101899004890286018901909352828552600160a060020a0390951697509195919493918301828280156104545780601f1061042957610100808354040283529160200191610454565b60408051608081018252338152602080820186815292820185815260608301858152600380546001810180835560009290925285517fc2575a0e9e593c00f959f8c92f12db2869c3395a3b0502d05e2516446f71f85b6004909202918201805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0390921691909117815596517fc2575a0e9e593c00f959f8c92f12db2869c3395a3b0502d05e2516446f71f85c82015592517fc2575a0e9e593c00f959f8c92f12db2869c3395a3b0502d05e2516446f71f85d84015590518051919593610748937fc2575a0e9e593c00f959f8c92f12db2869c3395a3b0502d05e2516446f71f85e01929101906109ae565b505050507f976d28de3586a145db2c2b7683c546b16f86314a4e9a43344968a3258d07039f8383836040518084815260200183815260200180602001828103825283818151815260200191508051906020019080838360005b838110156107b95781810151838201526020016107a1565b50505050905090810190601f1680156107e65780820380516001836020036101000a031916815260200191505b5094505050505060405180910390a1505050565b60018054604080516020601f6002600019610100878916150201909516949094049384018190048102820181019092528281529183918301828280156108815780601f1061085657610100808354040283529160200191610881565b820191906000526020600020905b81548152906001019060200180831161086457829003601f168201915b505050505090806001018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561091f5780601f106108f45761010080835404028352916020019161091f565b820191906000526020600020905b81548152906001019060200180831161090257829003601f168201915b5050505050905082565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10610962578054855561099e565b8280016001018555821561099e57600052602060002091601f016020900482015b8281111561099e578254825591600101919060010190610983565b506109aa929150610a1c565b5090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106109ef57805160ff191683800117855561099e565b8280016001018555821561099e579182015b8281111561099e578251825591602001919060010190610a01565b610a3691905b808211156109aa5760008155600101610a22565b905600a165627a7a723058207fd7fd273caf358ecc9f57866bbe3a10eeee5eab3c6c251d081563f66ef1d0230029',
+              //      gas: '4700000'
+              //    }, function (e, contract){
+              //     console.log(e, contract);
+              //     if (typeof contract.address !== 'undefined') {
+              //          console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+              //          contract_address = contract.address;
+
+              //          // tracking = data1;
+              //          console.log(tracking);
+              //     }
+              //  }
+          });
+
+         //   var itemEvent = tracking.itemInfo({}, 'latest');
+         //   itemEvent.watch(function(error, result){
+         //           if (!error)
+         //               {
+         //             if (result.blockHash != $("#insTrans").html())
+         //             $("#loader").hide();
+         //             $("#insTrans").html('Block hash: ' +result.blockHash);
+         //                   $("#instructor").html(web3.toAscii(result.args.lName) + ' ' + result.args.serial  + ' (' + web3.toAscii(result.args.fName) + ')');
+         //               } else {
+         //                   $("#loader").hide();
+         //                   console.log(error);
+         //               }
+         // });
+         // tracking.countItems((err,res) => {
+         //     if (res)
+         //         $("#countIns").html(res.c + ' Items');
+         // })
+
+         $("#button").click(function() {
+          //$("#loader").show();
+         console.log('Values init');
+
+
+         console.log(typeof $("#name").val(), typeof parseInt($("#latitude").val(),10),typeof parseInt($("#longitude").val(),10));
+          Contract.saveLocation(parseInt($("#longitude").val(),10), parseInt($("#latitude").val(),10),$("#name").val(), (err, res) => {
+              if (err) {
+              $("#loader").hide();
+              console.log(err);
+          }
+
+         });
+
+         });
+
+
+      </script>
+   </body>
+</html>
